@@ -14,31 +14,33 @@
 <body>    
     <h2>Homepage di Dungeon & Games</h2>
     <?php   
+        //Richiama la la navbar in precedenza importata
         mostraNavbar();
     ?> 
     <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "root";
-    $dbname = "giochi";
+        //Collegamento al DB
+        $servername = "localhost";
+        $username = "root";
+        $password = "root";
+        $dbname = "giochi";
 
-    // Crea connessione
-    $conn = new mysqli($servername, $username, $password, $dbname);
+        // Crea connessione
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Esegui query
-    $sql = "SELECT * FROM giochi";
-    $result = $conn->query(query: $sql);
-    echo "<p>Giochi inseriti <b>".$result->num_rows.'</b>';
+        // Esegui query
+        $sql = "SELECT * FROM giochi";
+        $result = $conn->query(query: $sql);
+        echo "<p>Giochi inseriti <b>".$result->num_rows.'</b>';
 
-    $sql = "SELECT * FROM utenti";
-    $result = $conn->query($sql);
-    echo "<p>Utenti registrati <b>".$result->num_rows.'</b>';
+        $sql = "SELECT * FROM utenti";
+        $result = $conn->query($sql);
+        echo "<p>Utenti registrati <b>".$result->num_rows.'</b>';
 
-        
+            
 
 
-    // Chiudi connessione
-    $conn->close();
+        // Chiudi connessione
+        $conn->close();
     ?>
 </body>
 </html>

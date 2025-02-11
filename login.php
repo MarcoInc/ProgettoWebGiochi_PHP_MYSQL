@@ -25,43 +25,44 @@
     </form>
 
     <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "root";
-    $dbname = "giochi";
+        //Collegamento al DB
+        $servername = "localhost";
+        $username = "root";
+        $password = "root";
+        $dbname = "giochi";
 
-    // Crea connessione
-    $conn = new mysqli($servername, $username, $password, $dbname);
+        // Crea connessione
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Controlla connessione
-    if ($conn->connect_error) {
-        die("Connessione fallita: " . $conn->connect_error);
-    }
-
-    // Gestione login
-    if (isset($_POST['login'])) {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-
-        // Verifica credenziali
-        $sql = "SELECT * FROM utenti WHERE username = '$username' AND password = '$password'";
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            echo "Login effettuato con successo! Benvenuto ".$row["username"]."!";
-            $_SESSION['authenticated']=true;
-            $_SESSION['username']=$username;
-            $_SESSION['id_utente']=$row['id'];
-            $_SESSION['isCuratore']=(bool)$row['isCuratore'];
-            header('Location: /');
-        } else {
-            echo "Username o password non validi!";
+        // Controlla connessione
+        if ($conn->connect_error) {
+            die("Connessione fallita: " . $conn->connect_error);
         }
-    }
 
-    // Chiudi connessione
-    $conn->close();
+        // Gestione login
+        if (isset($_POST['login'])) {
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+
+            // Verifica credenziali
+            $sql = "SELECT * FROM utenti WHERE username = '$username' AND password = '$password'";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                echo "Login effettuato con successo! Benvenuto ".$row["username"]."!";
+                $_SESSION['authenticated']=true;
+                $_SESSION['username']=$username;
+                $_SESSION['id_utente']=$row['id'];
+                $_SESSION['isCuratore']=(bool)$row['isCuratore'];
+                header('Location: /');
+            } else {
+                echo "Username o password non validi!";
+            }
+        }
+
+        // Chiudi connessione
+        $conn->close();
     ?>
 </body>
 </html>
