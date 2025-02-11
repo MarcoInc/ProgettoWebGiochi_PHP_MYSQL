@@ -3,9 +3,10 @@
     session_start();
     
     //Verifica se NON si è autenticati
-    if($_SESSION['authenticated']==0)
-        //se non si è autenticati si verrà reindirizzati nella home
+    if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] == 0) {
         header('Location: /');
+        exit;
+    }
 
     //Svuota i vari valori da _SESSION[]
     unset($_SESSION['username']);

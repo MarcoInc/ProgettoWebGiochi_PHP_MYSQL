@@ -3,9 +3,10 @@
     session_start();
     
     //Verifica se si è autenticati
-    if($_SESSION['authenticated']==0)
-        //se non si è autenticati si verrà reindirizzati nella home
+    if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] == 0) {
         header('Location: /');
+        exit;
+    }
     
     //importo il file navbar.php e tutte le sue funzioni e contenuto
     require_once 'navbar.php';
@@ -25,7 +26,7 @@
         <!-- Form di tipo POST -->
         <form method="post">
         Nome gioco: <input type="text" name="nome" required><br><br>
-        <i type="submit" name="nome_gioco" value="Aggiungi">
+        <input type="submit" name="nome_gioco" value="Aggiungi">
         </form>
         <?php
             //Collegamento al DB
@@ -35,13 +36,28 @@
             $dbname = "giochi";
             // Crea connessione
             $conn = new mysqli($servername, $username, $password, $dbname);
-            // Gestione registrazione
+            
+            // Gestione donazione gioco
             if (isset($_POST['nome_gioco'])) {
                 $nuovo_gioco = $_POST['nome'];
                 $id_utente = $_SESSION['id_utente'];
                 $data = date('Y-m-d');
-                $data_scadenza = date('Y-m-d', strtotime('+1 year', strtotime($data)));
-
+                
+                // Verifica se esiste già un abbonamento
+                $sql = "SELECT data_fine_abbonamento FROM abbonamenti WHERE id_utente = '$id_utente' ORDER BY data_fine_abbonamento DESC LIMIT 1";
+                $result = $conn->query($sql);
+                
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $data_scadenza_esistente = $row['data_fine_abbonamento'];
+                    
+                    // Calcola la nuova data di scadenza
+                    $data_scadenza = date('Y-m-d', strtotime('+1 year', 
+                        strtotime(max($data, $data_scadenza_esistente))));
+                } else {
+                    // Primo abbonamento
+                    $data_scadenza = date('Y-m-d', strtotime('+1 year', strtotime($data)));
+                }
                 
                 // Controlla il numero di copie esistenti
                 $sql = "SELECT COUNT(*) as totale FROM giochi WHERE nome_gioco = '$nuovo_gioco' AND id_donatore = '$id_utente'";
@@ -52,14 +68,17 @@
                 if ($row['totale'] >= 3) {
                     echo "Raggiunto il limite di 3 copie per questo gioco!";
                 } else {
-                    // Inserisci nuovo gioco
-                    $sql = "INSERT INTO giochi (nome_gioco, data_acquisto, id_donatore) VALUES ('$nuovo_gioco', '$data', '$id_utente')";
-                    $sql = "INSERT INTO abbonamenti (id_utente, data_inizio_abbonamento, data_fine_abbonamento, stato)
-                            VALUES ('$id_utente', '$data','$data_scadenza','Regolare')";
-
-                    if ($conn->query($sql) === TRUE)
-                        echo "Gioco donato!";
-                        echo "Adesso sei un UTENTE DONATORE. Data di scadenza del tuo abbonamento aggiornata: ".$data_scadenza;
+                    // Prima inserisci il gioco
+                    $sql_gioco = "INSERT INTO giochi (nome_gioco, data_acquisto, id_donatore) VALUES ('$nuovo_gioco', '$data', '$id_utente')";
+                    if ($conn->query($sql_gioco) === TRUE) {
+                        // Poi inserisci l'abbonamento
+                        $sql_abbonamento = "INSERT INTO abbonamenti (id_utente, data_inizio_abbonamento, data_fine_abbonamento, stato)
+                                            VALUES ('$id_utente', '$data','$data_scadenza','Regolare')";
+                        if ($conn->query($sql_abbonamento) === TRUE) {
+                            echo "Gioco donato!";
+                            echo "Adesso sei un UTENTE DONATORE. Data di scadenza del tuo abbonamento aggiornata: " . $data_scadenza;
+                        }
+                    }
                 }
             }
             // Chiudi connessione

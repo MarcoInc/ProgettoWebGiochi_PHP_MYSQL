@@ -35,8 +35,10 @@
         // Crea connessione
         $conn = new mysqli($servername, $username, $password, $dbname);
 
-        // Query con JOIN per includere i dati degli utenti
-        $sql = "SELECT * FROM utenti
+        // Query con JOIN per includere i dati degli abbonamenti agli utenti
+        $sql = "SELECT utenti.id AS id, utenti.username AS username, 
+                    utenti.isCuratore AS isCuratore, abbonamenti.stato AS stato, 
+                    abbonamenti.data_fine_abbonamento AS data_fine_abbonamento FROM utenti
                 LEFT JOIN abbonamenti ON utenti.id = abbonamenti.id_utente";
        
         $result = $conn->query($sql);
@@ -45,9 +47,12 @@
 
         if ($result->num_rows > 0) {
             // Stampa dati di ogni riga
-            echo "<table border='1'><tr><th>ID</th><th>Username</th><th>Stato</th>";
+            echo "<table border='1'><tr><th>ID</th><th>Username</th><th>Curatore</th>
+                <th>Stato abbonamento</th><th>Scadenza abbonamento</th></tr>";
             while($row = $result->fetch_assoc()) {
-                echo "<tr><td>" . $row["id"]. "</td><td>" . $row["username"]."</td></tr>".$row["abbonamenti.stato"]."</td></tr>";
+                $tmp=$row["isCuratore"] ? "X" : " ";
+                echo "<tr><td>" . $row["id"]. "</td><td>" . $row["username"]."</td><td>" .$tmp."</td>
+                <td>".$row["stato"]."</td><td>".$row["data_fine_abbonamento"]."</td></tr>";
             }
             echo "</table>";
         } else {

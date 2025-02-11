@@ -1,6 +1,15 @@
 <?php
     //Inizia la sessione -> crea o richiama l'array chiave valore _SESSION[....]
     session_start();
+
+
+    //Verifica se si è autenticati
+        //Verifica se è definita e non NULL isset($_SESSION['authenticated'] && che il suo valore sia esattamente true
+    if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true) {
+        //se si è autenticati riporta nella home
+        header('Location: /');
+        exit;
+    }
     //importo il file navbar.php e tutte le sue funzioni e contenuto
     require_once 'navbar.php';
 

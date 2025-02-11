@@ -2,10 +2,11 @@
 //Inizia la sessione -> crea o richiama l'array chiave valore _SESSION[....]
     session_start();
 
-    //Questa pagina deve essere visibile solo ai Curatori
-    if($_SESSION['isCuratore']==0)
-        //se si è utenti normali si verrà reindirizzati nella home
+    //Questa pagina deve essere visibile solo ai Curatori e autenticati
+    if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] == 0 || $_SESSION['isCuratore'] == 0) {
         header('Location: /');
+        exit;
+    }
         
     //importo il file navbar.php e tutte le sue funzioni e contenuto
     require_once 'navbar.php';
