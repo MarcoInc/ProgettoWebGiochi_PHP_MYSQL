@@ -1,0 +1,21 @@
+Dopo aver installato git procedere
+
+-Generare una chiave ssh
+ssh-keygen
+-Spostarsi dentro la cartella .ssh del proprio sistema
+>Linux
+/home/your_username/.ssh
+>Windows
+C:User\NOME_UTENTE\.ssh
+-visualizzare la chiave pubblica
+cat id_edXXXXX.pub
+
+e copiare l'output che inizia con "ssh..."
+attenzione a non copiare il contenuto dell'altro file -> CHIAVE PRIVATA che non va mai condivisa
+
+- Recarsi nella pagina di configurazioneH GitHub
+https://github.com/settings/keys
+-Aggiungere la chiave dal pulsante verde "New SSH keys
+Dare un nome al proprio client in "Title"
+In "Key" incollare la chiave in precedenza ottenuta
+

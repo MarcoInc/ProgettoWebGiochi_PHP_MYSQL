@@ -1,0 +1,15 @@
+Assicurarsi prima di aver creato una repository su GitHub che punti alla repository locale
+
+-Entrare nella cartella che si vuole versionare e uppare su GitHub
+-Lanciare per la prima volta il comando per inizializzare la cartella per git
+git init
+
+-------PRIMA DI PUSHARE SU GITHUB-----------
+-Aggiungere i file/modifiche nella repository -> da fare ogni volta che si vuole tenere traccia delle modifiche
+git add .
+
+-Aggiungere un commit che commenta cosa si è fatto -> da fare sempre dopo aver fatto git add .
+git commit -m "nome_del_commit"
+
+-pushare a GitHub all'occorenza -> da fare dopo aver fatto i precedenti
+git push

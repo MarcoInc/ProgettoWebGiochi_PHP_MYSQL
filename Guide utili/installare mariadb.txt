@@ -1,0 +1,32 @@
+installare mariadb
+https://www.digitalocean.com/community/tutorials/how-to-install-mariadb-on-ubuntu-20-04
+
+-lanciare il servizio
+sudo mysqld_safe &
+
+inserire le credenziali al setup
+
+-lanciare per creare una copia del file php.ini-development rinominandolo in php.ini
+cd /usr/local/etc/php
+sudo cp -r php.ini-development php.ini
+
+-editiamo il file php.ini
+sudo nano php.ini
+-scorriamo giù e de commentiamo la riga con
+extension=mysqli
+
+
+-----------PER CODESPACES-----------------
+-lanciare per installare myslqi
+docker-php-ext-install mysqli
+
+-lanciare
+hostname
+-appuntarsi lost name e inserirlo nel codice
+
+
+-avviare mariadb
+sudo mariadb
+
+-cambiare la password dell'utente root
+ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('root');
