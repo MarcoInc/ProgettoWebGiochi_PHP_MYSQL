@@ -102,5 +102,6 @@ function presta($id_gioco, $id_utente) {
 // Controlla se il pulsante è stato cliccato e chiama la funzione presta
 if (isset($_POST['prestito']) && isset($_POST['id_utente']) && isset($_POST['id_gioco']) ) {
     presta($_POST['id_gioco'],$_POST['id_utente'],);
+    header("Location: /prestito.php");
 }
 ?>
