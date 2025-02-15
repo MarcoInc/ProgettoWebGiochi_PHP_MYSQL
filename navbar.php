@@ -21,7 +21,7 @@ function mostraNavbar() {
         if (!isset($_SESSION['username'])) {
             echo '<a href="/registrazione.php">Registrati</a>
                 <a href="/login.php">Login</a>';
-        } else {
+        } else { //se siamo invece loggati
             //Verifica se si è Curatore
             if($_SESSION['isCuratore']){
                 echo '<a href="/lista_utenti.php">Lista utenti</a>'; //Mostra link per aggiungere gioco

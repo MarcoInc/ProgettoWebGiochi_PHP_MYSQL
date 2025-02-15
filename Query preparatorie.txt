@@ -2,6 +2,9 @@
 
 create database Giochi;
 
+-Usiamo il database creato
+use Giochi;
+
 -creiamo le tabelle:
 
 CREATE TABLE utenti (

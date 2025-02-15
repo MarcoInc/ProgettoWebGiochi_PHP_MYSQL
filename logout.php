@@ -5,6 +5,7 @@
     //Verifica se NON si è autenticati
     if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] == 0) {
         header('Location: /');
+        //esce dalla pagina di logout
         exit;
     }
 
@@ -15,6 +16,6 @@
     //e cancella la sessione
     session_destroy();
     //riporta nella homepage
-    header('Location: index.php');
+    header(header: 'Location: /');
     exit;
 ?>

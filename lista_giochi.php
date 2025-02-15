@@ -29,17 +29,18 @@
         $conn = new mysqli($servername, $username, $password, $dbname);
 
         // Query con JOIN per includere i dati degli utenti
+            //AS -> usa un'alias
         $sql = "SELECT giochi.id, giochi.nome_gioco, giochi.isPrestato , utenti.username AS nome_donatore 
                 FROM giochi
-                LEFT JOIN utenti ON giochi.id_donatore = utenti.id";
+                LEFT JOIN utenti ON giochi.id_donatore = utenti.id"; //unisce le tabelle e associa all'id dell'utente al suo username
 
         $result = $conn->query($sql);
 
         echo "<p>Giochi trovati <b>".$result->num_rows.'<b>';
 
         if ($result->num_rows > 0) {
-            // Stampa dati di ogni riga
-            echo "<table border='1'><tr><th>ID</th><th>Nome</</th><th>Donatore</th><th>Disponibililità</th></tr>";
+            // Stampa dati di ogni riga creando una tabella
+            echo "<table border='1'><tr><th>ID</th><th>Nome</</th><th>Donatore</th><th>Disponibilità</th></tr>";
             while($row = $result->fetch_assoc()) {
                 $isPrestato=$row["isPrestato"] ? "Non disponibile" : "Disponibile";
                 echo "<tr><td>" . $row["id"]. "</td><td>" . $row["nome_gioco"]. "</td><td>" 

@@ -57,13 +57,17 @@
             $sql = "SELECT * FROM utenti WHERE username = '$username' AND password = '$password'";
             $result = $conn->query($sql);
 
+                //se ne ha trovato uno
             if ($result->num_rows > 0) {
+                //prende la riga trovata
                 $row = $result->fetch_assoc();
                 echo "Login effettuato con successo! Benvenuto ".$row["username"]."!";
+
                 $_SESSION['authenticated']=true;
                 $_SESSION['username']=$username;
                 $_SESSION['id_utente']=$row['id'];
                 $_SESSION['isCuratore']=(bool)$row['isCuratore'];
+                //ti riporta nalla homepage che sta in /
                 header('Location: /');
             } else {
                 echo "Username o password non validi!";

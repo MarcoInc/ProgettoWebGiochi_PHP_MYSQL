@@ -25,7 +25,7 @@
         <h2>Donazione gioco</h2>
         <!-- Form di tipo POST -->
         <form method="post">
-        Nome gioco: <input type="text" name="nome" required><br><br>
+            Nome gioco: <input type="text" name="nome" required><br><br>
         <input type="submit" name="nome_gioco" value="Aggiungi">
         </form>
         <?php
@@ -56,11 +56,11 @@
                         strtotime(max($data, $data_scadenza_esistente))));
                 } else {
                     // Primo abbonamento
-                    $data_scadenza = date('Y-m-d', strtotime('+1 year', strtotime($data)));
+                    $data_scadenza = date('Y-m-d', timestamp: strtotime('+1 year', strtotime($data)));
                 }
                 
                 // Controlla il numero di copie esistenti
-                $sql = "SELECT COUNT(*) as totale FROM giochi WHERE nome_gioco = '$nuovo_gioco' AND id_donatore = '$id_utente'";
+                $sql = "SELECT COUNT(*) AS totale FROM giochi WHERE nome_gioco = '$nuovo_gioco'";
                 $result = $conn->query($sql);
                 $row = $result->fetch_assoc(); //servirà per contare le effettive righe trovate
                 
@@ -70,6 +70,7 @@
                 } else {
                     // Prima inserisci il gioco
                     $sql_gioco = "INSERT INTO giochi (nome_gioco, data_acquisto, id_donatore) VALUES ('$nuovo_gioco', '$data', '$id_utente')";
+                    // === controlla sia valore e tipo
                     if ($conn->query($sql_gioco) === TRUE) {
                         // Poi inserisci l'abbonamento
                         $sql_abbonamento = "INSERT INTO abbonamenti (id_utente, data_inizio_abbonamento, data_fine_abbonamento, stato)
