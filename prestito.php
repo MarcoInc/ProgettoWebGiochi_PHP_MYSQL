@@ -137,7 +137,7 @@ if (isset($_POST['ritorna']) && isset($_POST['id_utente']) && isset($_POST['id_g
     ?>
 
     <!-- Lista noleggiati -->
-    <h1>Lista giochi Noleggiati</h1>
+    <h1>Lista giochi in prestito</h1>
     <?php
         // Collega al database
         $conn = new mysqli("localhost", "root", "root", "giochi");
