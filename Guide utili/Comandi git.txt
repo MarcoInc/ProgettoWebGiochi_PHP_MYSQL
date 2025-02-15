@@ -13,3 +13,6 @@ git commit -m "nome_del_commit"
 
 -pushare a GitHub all'occorenza -> da fare dopo aver fatto i precedenti
 git push
+
+-In caso di collaboratori o desiderio di voler aggiornare un altro computer le modifiche nuove fatte altrove
+git pull

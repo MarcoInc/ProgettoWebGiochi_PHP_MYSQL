@@ -28,7 +28,8 @@ function mostraNavbar() {
                 echo '<a href="/aggiungi_gioco.php">Aggiungi gioco</a>'; //Mostra link per aggiungere gioco
             }
             //in ogni caso se si è loggati vengono mostrati i link per donare giochi, donazione e logout
-            echo '<a href="/dona_gioco.php">Dona gioco</a>
+            echo '<a href="/prestito.php">Noleggia giochi</a>
+                <a href="/dona_gioco.php">Dona gioco</a>
                 <a href="/donazione.php">Donaci 5€</a>
                 <a href="/logout.php">Logout</a>
                 ';
