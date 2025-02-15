@@ -118,7 +118,7 @@ if (isset($_POST['ritorna']) && isset($_POST['id_utente']) && isset($_POST['id_g
     $sql = "SELECT id, nome_gioco, isPrestato FROM giochi WHERE isPrestato=0";
     $result = $conn->query($sql);
 
-    echo "<p>Giochi disponibili trovati <b>" . $result->num_rows . '<b>';
+    echo "<p>Giochi disponibili trovati <b>" . $result->num_rows . '</b>';
     if ($result->num_rows > 0) {
         echo "<table border='1'><tr><th>Nome</th><th>Azione</th></tr>";
         while($row = $result->fetch_assoc()) {
@@ -144,7 +144,7 @@ if (isset($_POST['ritorna']) && isset($_POST['id_utente']) && isset($_POST['id_g
         $sql = "SELECT id, nome_gioco, isPrestato FROM giochi WHERE isPrestato=1";
         $result = $conn->query($sql);
 
-        echo "<p>Giochi che hai noleggiato: <b>" . $result->num_rows . '<b>';
+        echo "<p>Hai in prestito <b>" . $result->num_rows . '</b> giochi</p>';
         if ($result->num_rows > 0) {
             echo "<table border='1'><tr><th>Nome</th><th>Azione</th></tr>";
             while($row = $result->fetch_assoc()) {
