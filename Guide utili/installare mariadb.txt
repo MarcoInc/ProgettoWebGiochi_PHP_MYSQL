@@ -1,7 +1,7 @@
 installare mariadb
 https://www.digitalocean.com/community/tutorials/how-to-install-mariadb-on-ubuntu-20-04
 
--lanciare il servizio
+-lanciare il servizio -> per codespaces
 sudo mysqld_safe &
 
 inserire le credenziali al setup
@@ -27,6 +27,8 @@ hostname
 
 -avviare mariadb
 sudo mariadb
+-se non funziona usare
+mysql -u root -p
 
 -cambiare la password dell'utente root
 ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('root');

@@ -1,9 +1,9 @@
 -creiamo il database:
 
-create database Giochi;
+create database giochi;
 
 -Usiamo il database creato
-use Giochi;
+use giochi;
 
 -creiamo le tabelle:
 
