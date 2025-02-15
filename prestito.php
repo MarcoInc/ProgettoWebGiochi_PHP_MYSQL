@@ -77,17 +77,26 @@ function presta($id_gioco, $id_utente) {
     if ($conn->connect_error) {
         die("Connessione fallita: " . $conn->connect_error);
     }
+    // Controlla il numero di prestiti esistenti
+    $sql = "SELECT COUNT(*) as totale FROM prestiti WHERE id_utente = '$id_utente'";
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc(); //servirà per contare le effettive righe trovate
+    
+    //Verifica se ci l'utente ha già chiesto un prestito il gioco
+    if ($row['totale'] > 0) {
+        echo "Non puoi prendere in prestito più di un gioco, consegna prima quello che hai già preso";
+    } else {
+        // Esegui query di aggiornamento
+        $sql = "UPDATE `giochi` SET `isPrestato` = 1 WHERE `id` = $id_gioco";
+        $conn->query($sql);
 
-    // Esegui query di aggiornamento
-    $sql = "UPDATE `giochi` SET `isPrestato` = 1 WHERE `id` = $id_gioco";
-    $conn->query($sql);
+        $sql = "INSERT INTO prestiti (id_gioco, id_utente) VALUES ('$id_gioco', '$id_utente')";
+        $conn->query($sql);
 
-    $sql = "INSERT INTO prestiti (id_gioco, id_utente) VALUES ('$id_gioco', '$id_utente')";
-    $conn->query($sql);
-
-    // Chiudi connessione
-    $conn->close();
-    header("Location: /prestito.php");
+        // Chiudi connessione
+        $conn->close();
+        //header("Location: /prestito.php");
+    }
 }
 
 // Controlla se il pulsante è stato cliccato e chiama la funzione presta
