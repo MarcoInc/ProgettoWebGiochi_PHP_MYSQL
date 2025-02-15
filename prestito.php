@@ -23,11 +23,14 @@ function presta($id_gioco, $id_utente) {
     if ($row['totale'] > 0) {
         $messaggio = "Non puoi prendere in prestito più di un gioco, consegna prima quello che hai già preso.";
     } else {
-        // Esegui query di aggiornamento
+        //data che terrà traccia del prestito
+        $data = date('Y-m-d');
+
+        // Eseguiquery di aggiornamento
         $sql = "UPDATE `giochi` SET `isPrestato` = 1 WHERE `id` = $id_gioco";
         $conn->query($sql);
 
-        $sql = "INSERT INTO prestiti (id_gioco, id_utente) VALUES ('$id_gioco', '$id_utente')";
+        $sql = "INSERT INTO prestiti (id_gioco, id_utente, data_prestito) VALUES ('$id_gioco', '$id_utente','$data')";
         $conn->query($sql);
 
         // Chiudi connessione
@@ -37,7 +40,6 @@ function presta($id_gioco, $id_utente) {
         header("Location: /prestito.php");
         exit; // Assicurati di terminare l'esecuzione dello script dopo il reindirizzamento
     }
-
     return $messaggio;
 }
 
@@ -69,7 +71,7 @@ function ritorna($id_gioco, $id_utente){
         $sql = "UPDATE `giochi` SET `isPrestato` = 0 WHERE `id` = $id_gioco";
         $conn->query($sql);
 
-        $sql = "DELETE FROM `Giochi`.`prestiti` WHERE `id_utente` = '$id_utente'";
+        $sql = "DELETE FROM `Giochi`.`prestiti` WHERE `id_utente` = $id_utente";
         $conn->query($sql);
 
         // Chiudi connessione
@@ -141,19 +143,27 @@ if (isset($_POST['ritorna']) && isset($_POST['id_utente']) && isset($_POST['id_g
     <?php
         // Collega al database
         $conn = new mysqli("localhost", "root", "root", "giochi");
-        $sql = "SELECT id, nome_gioco, isPrestato FROM giochi WHERE isPrestato=1";
+        $sql = "SELECT giochi.id AS id_gioco, giochi.nome_gioco AS nome_gioco, giochi.isPrestato AS isPrestato, prestiti.id_utente 
+                AS id_utente, prestiti.data_prestito AS data_prestito, utenti.id
+                FROM giochi
+                LEFT JOIN prestiti ON giochi.id = prestiti.id_gioco
+                LEFT JOIN utenti ON utenti.id = prestiti.id_utente
+                WHERE giochi.isPrestato=1;
+"; 
         $result = $conn->query($sql);
+
 
         echo "<p>Hai in prestito <b>" . $result->num_rows . '</b> giochi</p>';
         if ($result->num_rows > 0) {
-            echo "<table border='1'><tr><th>Nome</th><th>Azione</th></tr>";
+            echo "<table border='1'><tr><th>Nome</th><th>Data prestito</th><th>Azione</th></tr>";
             while($row = $result->fetch_assoc()) {
                 $pulsanteRestituisci = '<form method="post">
-                                <input type="hidden" name="id_gioco" value="' . $row["id"] . '">
+                                <input type="hidden" name="id_gioco" value="' . $row["id_gioco"] . '">
                                 <input type="hidden" name="id_utente" value="' . $_SESSION["id_utente"] . '">
                                 <input type="submit" name="ritorna" value="Ritorna gioco">
                                 </form>';
-                echo "<tr><td>" . $row["nome_gioco"]. "</td><td>" . $pulsanteRestituisci . "</td></tr>";
+                echo "<tr><td>" . $row["nome_gioco"]. "</td><td>" . $row["data_prestito"]. "</td><td>" 
+                . $pulsanteRestituisci . "</td></tr>";
             }
             echo "</table>";
         } else {
