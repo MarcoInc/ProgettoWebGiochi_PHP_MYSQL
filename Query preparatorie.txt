@@ -11,7 +11,8 @@ CREATE TABLE utenti (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(100) NOT NULL,
-    isCuratore BOOLEAN DEFAULT FALSE
+    isCuratore BOOLEAN DEFAULT FALSE,
+    isAdmin BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE giochi (
@@ -37,16 +38,18 @@ CREATE TABLE prestiti (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_utente INT NOT NULL,
     id_gioco int NOT NULL,
-    data_prestito DATE NOT NULL
-);
+    data_prestito DATE NOT NULL,
+    data_scadenza_prestito DATE NOT NULL
+
+);<<<<<<
 
 -Popoliamo le tabelle con alcune righe:
 
-INSERT INTO utenti (username, password,isCuratore) 
+INSERT INTO utenti (username, password,isCuratore,isAdmin) 
 VALUES 
-    ('admin','password',TRUE),
-    ('pippo','123456',FALSE),
-    ('saro','qwerty',FALSE);
+    ('admin','password',TRUE,TRUE),
+    ('pippo','123456',FALSE,FALSE),
+    ('saro','qwerty',FALSE,FALSE);
     
 
 INSERT INTO giochi (nome_gioco, data_acquisto, id_donatore) 

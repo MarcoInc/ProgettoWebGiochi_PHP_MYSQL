@@ -10,7 +10,9 @@
     }
 
     //importo il file navbar.php e tutte le sue funzioni e contenuto
-    require_once 'navbar.php';
+    require_once 'templates/navbar.php';
+    //Importo le costanti per usare le credenziali per il db
+    require_once 'config/db.php'
 ?>
 
 <!DOCTYPE html>
@@ -28,27 +30,26 @@
     <h1>Lista Prodotti</h1>
     <?php
         //Collegamento al DB
-        $servername = "localhost";
-        $username = "root";
-        $password = "root";
-        $dbname = "giochi";
+        //Uso le costanti usati nel file in config/db.php
+        $servername = DB_HOST;
+        $username = DB_USER;
+        $password = DB_PASSWORD;
+        $dbname = DB_NAME;
 
         // Crea connessione
         $conn = new mysqli($servername, $username, $password, $dbname);
 
         // Query con JOIN per includere i dati degli abbonamenti agli utenti
             //Seleziona l'ID dell'utente, il nome utente, se è curatore, lo stato dell'abbonamento e la data di fine abbonamento
-        $sql = "SELECT utenti.id AS id, utenti.username AS username, 
-                utenti.isCuratore AS isCuratore, abbonamenti.stato AS stato, 
-                abbonamenti.data_fine_abbonamento AS data_fine_abbonamento
+        $sql = "SELECT DISTINCT utenti.id AS id, utenti.username AS username, utenti.isCuratore AS isCuratore,
+        abbonamenti.stato AS stato, abbonamenti.data_fine_abbonamento AS data_fine_abbonamento
         FROM utenti
-        LEFT JOIN (
-            SELECT id_utente, stato, data_fine_abbonamento
+        LEFT JOIN abbonamenti  ON utenti.id = abbonamenti.id_utente
+        WHERE abbonamenti.data_fine_abbonamento = (
+            SELECT MAX(data_fine_abbonamento)
             FROM abbonamenti
-            WHERE data_fine_abbonamento = (SELECT MAX(data_fine_abbonamento)
-                                            FROM abbonamenti AS sub_abbonamenti
-                                            WHERE sub_abbonamenti.id_utente = abbonamenti.id_utente)
-        ) AS abbonamenti ON utenti.id = abbonamenti.id_utente";
+            WHERE id_utente = utenti.id
+        )";
 
         $result = $conn->query($sql);
 

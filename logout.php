@@ -1,4 +1,5 @@
 <?php
+
     //Inizia la sessione -> crea o richiama l'array chiave valore _SESSION[....]
     session_start();
     

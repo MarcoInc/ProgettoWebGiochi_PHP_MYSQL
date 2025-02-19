@@ -12,6 +12,8 @@
 
     //importo il file navbar.php e tutte le sue funzioni e contenuto
     require_once 'navbar.php';
+    //Importo le costanti per usare le credenziali per il db
+    require_once 'config/db.php'
 ?>
 
 <!DOCTYPE html>
@@ -36,10 +38,11 @@
 
     <?php
         //Collegamento al DB
-        $servername = "localhost";
-        $username = "root";
-        $password = "root";
-        $dbname = "giochi";
+        //Uso le costanti usati nel file in config/db.php
+        $servername = DB_HOST;
+        $username = DB_USER;
+        $password = DB_PASSWORD;
+        $dbname = DB_NAME;
 
         // Crea connessione
         $conn = new mysqli($servername, $username, $password, $dbname);

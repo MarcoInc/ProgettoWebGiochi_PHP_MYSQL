@@ -5,7 +5,9 @@ function mostraNavbar() {
     if (isset($_SESSION['username'])) {
         echo "Benvenuto ".$_SESSION["username"]."!"; //messaggio di benvenuto che mostra l'username
         //verifica se in _SESSION è definito 'isCuratore' -> se si è Curatore
-        if($_SESSION['isCuratore'])
+        if($_SESSION['isAdmin'])
+        echo ' (ADMIN)'; //Mostra ADMIN dopo il messaggio di benvenuto
+        else if($_SESSION['isCuratore'])
             echo ' (CURATORE)'; //Mostra Curatore dopo il messaggio di benvenuto
     } else {
         echo "Nessun accesso effettuato";
@@ -23,6 +25,9 @@ function mostraNavbar() {
                 <a href="/login.php">Login</a>';
         } else { //se siamo invece loggati
             //Verifica se si è Curatore
+            if($_SESSION['isAdmin']){
+                echo '<a href="/admin.php">Amministrazione</a>'; //Mostra link per pagina admin
+            }
             if($_SESSION['isCuratore']){
                 echo '<a href="/lista_utenti.php">Lista utenti</a>'; //Mostra link per aggiungere gioco
                 echo '<a href="/aggiungi_gioco.php">Aggiungi gioco</a>'; //Mostra link per aggiungere gioco
