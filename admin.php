@@ -50,14 +50,12 @@
        // Verifica connessione
        if ($conn->connect_error) {
            die("Connessione fallita: " . $conn->connect_error);
-       }
-       //data che terrà traccia del prestito
-   
-       // Eseguiquery di aggiornamento
+       }   
+       // Toglie Curatore dall'utente designato
        $sql = "UPDATE `utenti` SET `isCuratore` = 0 WHERE `id` = $id_utente";
        $conn->query($sql);
 
-
+       //seleziona l'username
        $sql = "SELECT `username` FROM utenti WHERE `id` = $id_utente";
        $result = $conn->query(query: $sql);
        $row = $result->fetch_assoc();
@@ -66,11 +64,11 @@
        
        // Reindirizza alla pagina dei prestiti
        header("Location: /admin.php");
-       return "Utente ".$row['username']." adesso è un CURATORE";
+       return "Utente ".$row['username']." non è più un CURATORE";
        exit; // Assicurati di terminare l'esecuzione dello script dopo il reindirizzamento
    }
+    $messaggio="";
      // Controlla se il pulsante è stato cliccato e chiama la funzione presta
-     
      if (isset($_POST['curatoreTRUE']) && isset($_POST['id_utente'])) {
          $messaggio = setCuratoreTrue($_POST['id_utente']);
      }
@@ -130,7 +128,7 @@
             SELECT MAX(data_fine_abbonamento)
             FROM abbonamenti
             WHERE id_utente = utenti.id
-        ) AND isCuratore=TRUE";
+        ) AND isCuratore=TRUE"; //si vedono chi è curater
 
         $result = $conn->query($sql);
 
@@ -142,6 +140,7 @@
                 <th>Stato abbonamento</th><th>Scadenza abbonamento</th><th>Azioni</th></tr>";
             
             while($row = $result->fetch_assoc()) {
+                //pulsante che toglie il curatore
                 $pulsanteCuratore = '<form method="post">
                 <input type="hidden" name="id_utente" value="' . $row["id"] . '">
                 <input type="submit" name="curatoreFALSE" value="Togli CURATORE">
@@ -163,7 +162,7 @@
             SELECT MAX(data_fine_abbonamento)
             FROM abbonamenti
             WHERE id_utente = utenti.id
-        ) AND isCuratore=FALSE";
+        ) AND isCuratore=FALSE"; //si vedono solo chi non è curatore
 
         $result = $conn->query($sql);
 
@@ -175,6 +174,7 @@
                 <th>Stato abbonamento</th><th>Scadenza abbonamento</th><th>Azioni</th></tr>";
             
             while($row = $result->fetch_assoc()) {
+                //pulsante che rende curatore
                 $pulsanteCuratore = '<form method="post">
                 <input type="hidden" name="id_utente" value="' . $row["id"] . '">
                 <input type="submit" name="curatoreTRUE" value="Promuovi a CURATORE">
@@ -190,6 +190,13 @@
 
         // Chiudi connessione
         $conn->close();
+    ?>
+
+    <?php
+    // Mostra il messaggio se necessario
+    if (!empty($messaggio)) {
+        echo "<p>$messaggio</p>";
+    }
     ?>
 </body>
 </html>
