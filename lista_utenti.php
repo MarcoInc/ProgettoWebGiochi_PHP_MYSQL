@@ -65,8 +65,6 @@
                 <td>".$row["stato"]."</td><td>".$row["data_fine_abbonamento"]."</td></tr>";
             }
             echo "</table>";
-        } else {
-            echo "0 risultati";
         }
 
         // Chiudi connessione

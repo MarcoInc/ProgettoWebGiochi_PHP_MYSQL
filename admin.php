@@ -36,45 +36,78 @@
     }
     function setCuratoreFalse($id_utente) {
         //Importo le costanti per usare le credenziali per il db
-       require_once 'config/db.php';
-       //Collegamento al DB
-       //Uso le costanti usati nel file in config/db.php
-       $servername = DB_HOST;
-       $username = DB_USER;
-       $password = DB_PASSWORD;
-       $dbname = DB_NAME;
+        require_once 'config/db.php';
+        //Collegamento al DB
+        //Uso le costanti usati nel file in config/db.php
+        $servername = DB_HOST;
+        $username = DB_USER;
+        $password = DB_PASSWORD;
+        $dbname = DB_NAME;
 
-       // Crea connessione
-       $conn = new mysqli($servername, $username, $password, $dbname);
+        // Crea connessione
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
-       // Verifica connessione
-       if ($conn->connect_error) {
-           die("Connessione fallita: " . $conn->connect_error);
-       }   
-       // Toglie Curatore dall'utente designato
-       $sql = "UPDATE `utenti` SET `isCuratore` = 0 WHERE `id` = $id_utente";
-       $conn->query($sql);
+        // Verifica connessione
+        if ($conn->connect_error) {
+            die("Connessione fallita: " . $conn->connect_error);
+        }   
+        // Toglie Curatore dall'utente designato
+        $sql = "UPDATE `utenti` SET `isCuratore` = 0 WHERE `id` = $id_utente";
+        $conn->query($sql);
 
-       //seleziona l'username
-       $sql = "SELECT `username` FROM utenti WHERE `id` = $id_utente";
-       $result = $conn->query(query: $sql);
-       $row = $result->fetch_assoc();
-       // Chiudi connessione
-       $conn->close();
-       
-       // Reindirizza alla pagina dei prestiti
-       header("Location: /admin.php");
-       return "Utente ".$row['username']." non è più un CURATORE";
-       exit; // Assicurati di terminare l'esecuzione dello script dopo il reindirizzamento
-   }
+        //seleziona l'username
+        $sql = "SELECT `username` FROM utenti WHERE `id` = $id_utente";
+        $result = $conn->query(query: $sql);
+        $row = $result->fetch_assoc();
+        // Chiudi connessione
+        $conn->close();
+        
+        // Reindirizza alla pagina dei prestiti
+        header("Location: /admin.php");
+        return "Utente ".$row['username']." non è più un CURATORE";
+        exit; // Assicurati di terminare l'esecuzione dello script dopo il reindirizzamento
+    }
+//    function eliminaUtente($id_utente) {
+//     //Importo le costanti per usare le credenziali per il db
+//         require_once 'config/db.php';
+//         //Collegamento al DB
+//         //Uso le costanti usati nel file in config/db.php
+//         $servername = DB_HOST;
+//         $username = DB_USER;
+//         $password = DB_PASSWORD;
+//         $dbname = DB_NAME;
+
+//         // Crea connessione
+//         $conn = new mysqli($servername, $username, $password, $dbname);
+
+//         // Verifica connessione
+//         if ($conn->connect_error) {
+//             die("Connessione fallita: " . $conn->connect_error);
+//         }
+//         //data che terrà traccia del prestito
+
+//         // Esegui query di aggiornamento
+//         $sql = "DELETE FROM `Giochi`.`utenti` WHERE `id` = $id_utente";
+//         $conn->query($sql);
+
+//         $conn->close();
+        
+//         // Reindirizza alla pagina dei prestiti
+//         header("Location: /admin.php");
+//         exit; // Assicurati di terminare l'esecuzione dello script dopo il reindirizzamento
+//     }
+
     $messaggio="";
      // Controlla se il pulsante è stato cliccato e chiama la funzione presta
-     if (isset($_POST['curatoreTRUE']) && isset($_POST['id_utente'])) {
-         $messaggio = setCuratoreTrue($_POST['id_utente']);
-     }
-     if (isset($_POST['curatoreFALSE']) && isset($_POST['id_utente'])) {
+    if (isset($_POST['curatoreTRUE']) && isset($_POST['id_utente'])) {
+        $messaggio = setCuratoreTrue($_POST['id_utente']);
+    }
+    if (isset($_POST['curatoreFALSE']) && isset($_POST['id_utente'])) {
         $messaggio = setCuratoreFalse($_POST['id_utente']);
     }
+    // if (isset($_POST['eliminaUtente']) && isset($_POST['id_utente'])) {
+    //     $messaggio = eliminaUtente($_POST['id_utente']);
+    // }
     
 ?>
 
@@ -115,6 +148,9 @@
         $password = DB_PASSWORD;
         $dbname = DB_NAME;
 
+        $utenteAttuale=$_SESSION['username'];
+
+
         // Crea connessione
         $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -128,7 +164,9 @@
             SELECT MAX(data_fine_abbonamento)
             FROM abbonamenti
             WHERE id_utente = utenti.id
-        ) AND isCuratore=TRUE"; //si vedono chi è curater
+        ) AND isCuratore=TRUE
+            AND isAdmin=FALSE
+            AND username!='$utenteAttuale'"; //si vedono solo chi non è curatore ad esclusione dell'utente attuale e admim
 
         $result = $conn->query($sql);
 
@@ -145,13 +183,15 @@
                 <input type="hidden" name="id_utente" value="' . $row["id"] . '">
                 <input type="submit" name="curatoreFALSE" value="Togli CURATORE">
                 </form>';
+                // $pulsanteEliminaUtente = '<form method="post">
+                // <input type="hidden" name="id_utente" value="' . $row["id"] . '">
+                // <input type="submit" name="eliminaUtente" value="Elimina utente">
+                // </form>';
                 $tmp=$row["isCuratore"] ? "X" : " ";
                 echo "<tr><td>" . $row["id"]. "</td><td>" . $row["username"]."</td><td>" .$tmp."</td>
                 <td>".$row["stato"]."</td><td>".$row["data_fine_abbonamento"]."</td><td>".$pulsanteCuratore."</td></tr>";
             }
             echo "</table>";
-        } else {
-            echo "0 risultati";
         }
 
         $sql = "SELECT DISTINCT utenti.id AS id, utenti.username AS username, utenti.isCuratore AS isCuratore,
@@ -162,7 +202,9 @@
             SELECT MAX(data_fine_abbonamento)
             FROM abbonamenti
             WHERE id_utente = utenti.id
-        ) AND isCuratore=FALSE"; //si vedono solo chi non è curatore
+        ) AND isCuratore=FALSE 
+            AND isAdmin=FALSE
+            AND username!='$utenteAttuale'"; //si vedono solo chi non è curatore ad esclusione dell'utente attuale e admim
 
         $result = $conn->query($sql);
 
@@ -179,13 +221,15 @@
                 <input type="hidden" name="id_utente" value="' . $row["id"] . '">
                 <input type="submit" name="curatoreTRUE" value="Promuovi a CURATORE">
                 </form>';
+                // $pulsanteEliminaUtente = '<form method="post">
+                // <input type="hidden" name="id_utente" value="' . $row["id"] . '">
+                // <input type="submit" name="eliminaUtente" value="Elimina utente">
+                // </form>';
                 $tmp=$row["isCuratore"] ? "X" : " ";
                 echo "<tr><td>" . $row["id"]. "</td><td>" . $row["username"]."</td><td>" .$tmp."</td>
                 <td>".$row["stato"]."</td><td>".$row["data_fine_abbonamento"]."</td><td>".$pulsanteCuratore."</td></tr>";
             }
             echo "</table>";
-        } else {
-            echo "0 risultati";
         }
 
         // Chiudi connessione

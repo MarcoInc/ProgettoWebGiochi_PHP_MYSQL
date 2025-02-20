@@ -50,8 +50,6 @@
                 . $row["nome_donatore"]. "</td><td>".$isPrestato."</td></tr>";
             }
             echo "</table>";
-        } else {
-            echo "0 risultati";
         }
 
         // Chiudi connessione
