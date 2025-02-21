@@ -14,6 +14,7 @@
     unset($_SESSION['username']);
     unset($_SESSION['authenticated']);
     unset($_SESSION['isCuratore']);
+    unset($_SESSION['isAdmin']);
     //e cancella la sessione
     session_destroy();
     //riporta nella homepage
