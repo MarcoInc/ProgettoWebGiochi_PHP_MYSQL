@@ -41,15 +41,15 @@
 
         // Query con JOIN per includere i dati degli abbonamenti agli utenti
             //Seleziona l'ID dell'utente, il nome utente, se è curatore, lo stato dell'abbonamento e la data di fine abbonamento
-        $sql = "SELECT DISTINCT utenti.id AS id, utenti.username AS username, utenti.isCuratore AS isCuratore,
-        abbonamenti.stato AS stato, abbonamenti.data_fine_abbonamento AS data_fine_abbonamento
-        FROM utenti
-        LEFT JOIN abbonamenti  ON utenti.id = abbonamenti.id_utente
-        WHERE abbonamenti.data_fine_abbonamento = (
-            SELECT MAX(data_fine_abbonamento)
-            FROM abbonamenti
-            WHERE id_utente = utenti.id
-        )";
+        $sql = "SELECT DISTINCT 
+                u.id AS id,
+                u.username AS username,
+                u.isCuratore AS isCuratore,
+                COALESCE(a.stato, '') AS stato,
+                MAX(COALESCE(a.data_fine_abbonamento, '')) OVER (PARTITION BY u.id) AS data_fine_abbonamento
+            FROM utenti u
+            LEFT JOIN abbonamenti a ON u.id = a.id_utente
+            GROUP BY u.id, u.username, u.isCuratore, a.stato;";
 
         $result = $conn->query($sql);
 

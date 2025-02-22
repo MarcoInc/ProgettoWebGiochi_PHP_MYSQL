@@ -18,7 +18,7 @@
         }
         //data che terrà traccia del prestito
     
-        // Eseguiquery di aggiornamento
+        // Esegui query di aggiornamento
         $sql = "UPDATE `utenti` SET `isCuratore` = 1 WHERE `id` = $id_utente";
         $conn->query($sql);
 
@@ -67,35 +67,35 @@
         return "Utente ".$row['username']." non è più un CURATORE";
         exit; // Assicurati di terminare l'esecuzione dello script dopo il reindirizzamento
     }
-//    function eliminaUtente($id_utente) {
-//     //Importo le costanti per usare le credenziali per il db
-//         require_once 'config/db.php';
-//         //Collegamento al DB
-//         //Uso le costanti usati nel file in config/db.php
-//         $servername = DB_HOST;
-//         $username = DB_USER;
-//         $password = DB_PASSWORD;
-//         $dbname = DB_NAME;
+   function eliminaUtente($id_utente) {
+    //Importo le costanti per usare le credenziali per il db
+        require_once 'config/db.php';
+        //Collegamento al DB
+        //Uso le costanti usati nel file in config/db.php
+        $servername = DB_HOST;
+        $username = DB_USER;
+        $password = DB_PASSWORD;
+        $dbname = DB_NAME;
 
-//         // Crea connessione
-//         $conn = new mysqli($servername, $username, $password, $dbname);
+        // Crea connessione
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
-//         // Verifica connessione
-//         if ($conn->connect_error) {
-//             die("Connessione fallita: " . $conn->connect_error);
-//         }
-//         //data che terrà traccia del prestito
+        // Verifica connessione
+        if ($conn->connect_error) {
+            die("Connessione fallita: " . $conn->connect_error);
+        }
+        //data che terrà traccia del prestito
 
-//         // Esegui query di aggiornamento
-//         $sql = "DELETE FROM `Giochi`.`utenti` WHERE `id` = $id_utente";
-//         $conn->query($sql);
+        // Esegui query di aggiornamento
+        $sql = "DELETE FROM `Giochi`.`utenti` WHERE `id` = $id_utente";
+        $conn->query($sql);
 
-//         $conn->close();
+        $conn->close();
         
-//         // Reindirizza alla pagina dei prestiti
-//         header("Location: /admin.php");
-//         exit; // Assicurati di terminare l'esecuzione dello script dopo il reindirizzamento
-//     }
+        // Reindirizza alla pagina dei prestiti
+        header("Location: /admin.php");
+        exit; // Assicurati di terminare l'esecuzione dello script dopo il reindirizzamento
+    }
 
     $messaggio="";
      // Controlla se il pulsante è stato cliccato e chiama la funzione presta
@@ -105,9 +105,9 @@
     if (isset($_POST['curatoreFALSE']) && isset($_POST['id_utente'])) {
         $messaggio = setCuratoreFalse($_POST['id_utente']);
     }
-    // if (isset($_POST['eliminaUtente']) && isset($_POST['id_utente'])) {
-    //     $messaggio = eliminaUtente($_POST['id_utente']);
-    // }
+    if (isset($_POST['eliminaUtente']) && isset($_POST['id_utente'])) {
+        $messaggio = eliminaUtente($_POST['id_utente']);
+    }
     
 ?>
 
@@ -156,17 +156,18 @@
 
         // Query con JOIN per includere i dati degli abbonamenti agli utenti
             //Seleziona l'ID dell'utente, il nome utente, se è curatore, lo stato dell'abbonamento e la data di fine abbonamento
-        $sql = "SELECT DISTINCT utenti.id AS id, utenti.username AS username, utenti.isCuratore AS isCuratore,
-        abbonamenti.stato AS stato, abbonamenti.data_fine_abbonamento AS data_fine_abbonamento
-        FROM utenti
-        LEFT JOIN abbonamenti  ON utenti.id = abbonamenti.id_utente
-        WHERE abbonamenti.data_fine_abbonamento = (
-            SELECT MAX(data_fine_abbonamento)
-            FROM abbonamenti
-            WHERE id_utente = utenti.id
-        ) AND isCuratore=TRUE
-            AND isAdmin=FALSE
-            AND username!='$utenteAttuale'"; //si vedono solo chi non è curatore ad esclusione dell'utente attuale e admim
+        $sql = "SELECT DISTINCT 
+            u.id AS id,
+            u.username AS username,
+            u.isCuratore AS isCuratore,
+            COALESCE(a.stato, '') AS stato,
+            MAX(COALESCE(a.data_fine_abbonamento, '')) OVER (PARTITION BY u.id) AS data_fine_abbonamento
+        FROM utenti u
+        LEFT JOIN abbonamenti a ON u.id = a.id_utente
+        WHERE u.isCuratore = TRUE
+        AND u.isAdmin = FALSE
+        AND u.username != '$utenteAttuale'
+        GROUP BY u.id, u.username, u.isCuratore, a.stato;"; //si vedono solo chi non è curatore ad esclusione dell'utente attuale e admim
 
         $result = $conn->query($sql);
 
@@ -180,31 +181,32 @@
             while($row = $result->fetch_assoc()) {
                 //pulsante che toglie il curatore
                 $pulsanteCuratore = '<form method="post">
+                                        <input type="hidden" name="id_utente" value="' . $row["id"] . '">
+                                        <input type="submit" name="curatoreFALSE" value="Togli CURATORE">
+                                    </form>';
+                $pulsanteEliminaUtente = '<form method="post">
                 <input type="hidden" name="id_utente" value="' . $row["id"] . '">
-                <input type="submit" name="curatoreFALSE" value="Togli CURATORE">
+                <input type="submit" name="eliminaUtente" value="Elimina utente">
                 </form>';
-                // $pulsanteEliminaUtente = '<form method="post">
-                // <input type="hidden" name="id_utente" value="' . $row["id"] . '">
-                // <input type="submit" name="eliminaUtente" value="Elimina utente">
-                // </form>';
                 $tmp=$row["isCuratore"] ? "X" : " ";
                 echo "<tr><td>" . $row["id"]. "</td><td>" . $row["username"]."</td><td>" .$tmp."</td>
-                <td>".$row["stato"]."</td><td>".$row["data_fine_abbonamento"]."</td><td>".$pulsanteCuratore."</td></tr>";
+                <td>".$row["stato"]."</td><td>".$row["data_fine_abbonamento"]."</td><td>".$pulsanteCuratore.$pulsanteEliminaUtente."</td></tr>";
             }
             echo "</table>";
         }
 
-        $sql = "SELECT DISTINCT utenti.id AS id, utenti.username AS username, utenti.isCuratore AS isCuratore,
-        abbonamenti.stato AS stato, abbonamenti.data_fine_abbonamento AS data_fine_abbonamento
-        FROM utenti
-        LEFT JOIN abbonamenti  ON utenti.id = abbonamenti.id_utente
-        WHERE abbonamenti.data_fine_abbonamento = (
-            SELECT MAX(data_fine_abbonamento)
-            FROM abbonamenti
-            WHERE id_utente = utenti.id
-        ) AND isCuratore=FALSE 
-            AND isAdmin=FALSE
-            AND username!='$utenteAttuale'"; //si vedono solo chi non è curatore ad esclusione dell'utente attuale e admim
+        $sql = "SELECT DISTINCT 
+            u.id AS id,
+            u.username AS username,
+            u.isCuratore AS isCuratore,
+            COALESCE(a.stato, '') AS stato,
+            MAX(COALESCE(a.data_fine_abbonamento, '')) OVER (PARTITION BY u.id) AS data_fine_abbonamento
+        FROM utenti u
+        LEFT JOIN abbonamenti a ON u.id = a.id_utente
+        WHERE u.isCuratore = FALSE
+        AND u.isAdmin = FALSE
+        AND u.username != '$utenteAttuale'
+        GROUP BY u.id, u.username, u.isCuratore, a.stato;"; //si vedono solo chi non è curatore ad esclusione dell'utente attuale e admim
 
         $result = $conn->query($sql);
 
@@ -218,16 +220,16 @@
             while($row = $result->fetch_assoc()) {
                 //pulsante che rende curatore
                 $pulsanteCuratore = '<form method="post">
+                                        <input type="hidden" name="id_utente" value="' . $row["id"] . '">
+                                        <input type="submit" name="curatoreTRUE" value="Promuovi a CURATORE">
+                                    </form>';
+                $pulsanteEliminaUtente = '<form method="post">
                 <input type="hidden" name="id_utente" value="' . $row["id"] . '">
-                <input type="submit" name="curatoreTRUE" value="Promuovi a CURATORE">
+                <input type="submit" name="eliminaUtente" value="Elimina utente">
                 </form>';
-                // $pulsanteEliminaUtente = '<form method="post">
-                // <input type="hidden" name="id_utente" value="' . $row["id"] . '">
-                // <input type="submit" name="eliminaUtente" value="Elimina utente">
-                // </form>';
                 $tmp=$row["isCuratore"] ? "X" : " ";
                 echo "<tr><td>" . $row["id"]. "</td><td>" . $row["username"]."</td><td>" .$tmp."</td>
-                <td>".$row["stato"]."</td><td>".$row["data_fine_abbonamento"]."</td><td>".$pulsanteCuratore."</td></tr>";
+                <td>".$row["stato"]."</td><td>".$row["data_fine_abbonamento"]."</td><td>".$pulsanteCuratore.$pulsanteEliminaUtente."</td></tr>";
             }
             echo "</table>";
         }

@@ -33,7 +33,7 @@
         }
 
         // Controlla il numero di prestiti esistenti
-        $sql = "SELECT COUNT(*) as totale FROM prestiti WHERE id_utente = '$id_utente'";
+        $sql = "SELECT COUNT(*) AS totale FROM prestiti WHERE id_utente = '$id_utente'";
         $result = $conn->query($sql);
         $row = $result->fetch_assoc(); // serve per contare le effettive righe trovate
 
@@ -45,10 +45,9 @@
             $data = date('Y-m-d');
             $data_scadenza_prestito=date('Y-m-d', strtotime("+2 months", strtotime($data)));
 
-            // Eseguiquery di aggiornamento
+            // Esegui query di aggiornamento
             $sql = "UPDATE `giochi` SET `isPrestato` = 1 WHERE `id` = $id_gioco";
             $conn->query($sql);
-
 
             $sql = "INSERT INTO prestiti (id_gioco, id_utente, data_prestito,data_scadenza_prestito) VALUES ('$id_gioco', '$id_utente','$data','$data_scadenza_prestito')";
             $conn->query($sql);
@@ -139,10 +138,10 @@
         echo "<table border='1'><tr><th>Nome</th><th>Azione</th></tr>";
         while($row = $result->fetch_assoc()) {
             $pulsantePresta = '<form method="post">
-                               <input type="hidden" name="id_gioco" value="' . $row["id"] . '">
-                               <input type="hidden" name="id_utente" value="' . $_SESSION["id_utente"] . '">
-                               <input type="submit" name="prestito" value="Prendi in prestito">
-                               </form>';
+                                    <input type="hidden" name="id_gioco" value="' . $row["id"] . '">
+                                    <input type="hidden" name="id_utente" value="' . $_SESSION["id_utente"] . '">
+                                    <input type="submit" name="prestito" value="Prendi in prestito">
+                                </form>';
             echo "<tr><td>" . $row["nome_gioco"]. "</td><td>" . $pulsantePresta . "</td></tr>";
         }
         echo "</table>";

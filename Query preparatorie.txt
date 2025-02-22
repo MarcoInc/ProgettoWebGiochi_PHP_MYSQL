@@ -20,8 +20,7 @@ CREATE TABLE giochi (
     nome_gioco VARCHAR(255) NOT NULL,
     data_acquisto DATE NOT NULL,
     id_donatore INT,
-    isPrestato BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (id_donatore) REFERENCES utenti(id)
+    isPrestato BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE abbonamenti (
@@ -31,17 +30,20 @@ CREATE TABLE abbonamenti (
     data_fine_abbonamento DATE NOT NULL,
     stato ENUM('Donatore', 'Regolare', 'Non regolare') NOT NULL,
     FOREIGN KEY (id_utente) REFERENCES utenti(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
-
 
 CREATE TABLE prestiti (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_utente INT NOT NULL,
     id_gioco int NOT NULL,
     data_prestito DATE NOT NULL,
-    data_scadenza_prestito DATE NOT NULL
-
-);<<<<<<
+    data_scadenza_prestito DATE NOT NULL,
+    FOREIGN KEY (id_utente) REFERENCES utenti(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
 
 -Popoliamo le tabelle con alcune righe:
 

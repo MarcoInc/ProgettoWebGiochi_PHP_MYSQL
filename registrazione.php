@@ -11,7 +11,7 @@
     }
 
     //importo il file navbar.php e tutte le sue funzioni e contenuto
-    require_once 'navbar.php';
+    require_once 'templates/navbar.php';
     //Importo le costanti per usare le credenziali per il db
     require_once 'config/db.php'
 ?>
@@ -64,6 +64,7 @@
                 $sql = "INSERT INTO utenti (username, password) VALUES ('$username', '$password')";
                 if ($conn->query($sql) === TRUE) 
                     echo "Registrazione avvenuta con successo!";
+                
             }
         }
 
