@@ -135,7 +135,7 @@
         <link rel="stylesheet" href="/css/style.css"></head>
     </head>
     <body>
-        <?php   
+        <?php
             //Richiama la la navbar in precedenza importata
             mostraNavbar();
         ?>
@@ -157,7 +157,7 @@
 
             // Query con JOIN per includere i dati degli abbonamenti agli utenti
                 //Seleziona l'ID dell'utente, il nome utente, se è curatore, lo stato dell'abbonamento e la data di fine abbonamento
-            $sql = "SELECT DISTINCT 
+            $sql = "SELECT DISTINCT
                 u.id AS id,
                 u.username AS username,
                 u.isCuratore AS isCuratore,
@@ -196,7 +196,7 @@
                 echo "</table>";
             }
 
-            $sql = "SELECT DISTINCT 
+            $sql = "SELECT DISTINCT
                 u.id AS id,
                 u.username AS username,
                 u.isCuratore AS isCuratore,
