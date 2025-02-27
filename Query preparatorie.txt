@@ -48,11 +48,15 @@ CREATE TABLE prestiti (
 
 -Popoliamo le tabelle con alcune righe:
 
+admin -> password
+pippo -> 123456
+saro -> qwerty
+
 INSERT INTO utenti (username, password,isCuratore,isAdmin) 
 VALUES 
-    ('admin','password',TRUE,TRUE),
-    ('pippo','123456',FALSE,FALSE),
-    ('saro','qwerty',FALSE,FALSE);
+    ('admin','5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',TRUE,TRUE), 
+    ('pippo','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92',FALSE,FALSE),
+    ('saro','65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5',FALSE,FALSE);
     
 
 INSERT INTO giochi (nome_gioco, data_acquisto, id_donatore) 

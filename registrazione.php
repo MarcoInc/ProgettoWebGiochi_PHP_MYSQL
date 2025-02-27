@@ -54,6 +54,9 @@
                 $username = $_POST['username'];
                 $password = $_POST['password'];
 
+                $hash = hash('sha256', $password);
+
+
                 // Controlla se username esiste
                 $sql = "SELECT id FROM utenti WHERE username = '$username'";
                 $result = $conn->query($sql);
@@ -62,7 +65,7 @@
                     echo "Username già esistente!";
                 } else {
                     // Inserisci nuovo utente
-                    $sql = "INSERT INTO utenti (username, password) VALUES ('$username', '$password')";
+                    $sql = "INSERT INTO utenti (username, password) VALUES ('$username', '$hash')";
                     if ($conn->query($sql) === TRUE) 
                         echo "Registrazione avvenuta con successo!";
                     

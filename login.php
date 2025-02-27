@@ -57,8 +57,10 @@
                 $username = $_POST['username'];
                 $password = $_POST['password'];
 
+                $hash = hash('sha256', data: $password);
+
                 // Verifica credenziali
-                $sql = "SELECT * FROM utenti WHERE username = '$username' AND password = '$password'";
+                $sql = "SELECT * FROM utenti WHERE username = '$username' AND password = '$hash'";
                 $result = $conn->query($sql);
 
                     //se ne ha trovato uno
