@@ -19,7 +19,8 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Lista utenti</title>
+    <title>Lista utenti</title>    
+    <link rel="stylesheet" href="/css/style.css"></head>
 </head>
 <body>
     <?php   
@@ -27,7 +28,7 @@
         mostraNavbar();
     ?>
 
-    <h1>Lista Prodotti</h1>
+    <h2>Lista Prodotti</h2>
     <?php
         //Collegamento al DB
         //Uso le costanti usati nel file in config/db.php

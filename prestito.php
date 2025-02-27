@@ -123,10 +123,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista giochi disponibili</title>
+    <link rel="stylesheet" href="/css/style.css"></head>
 </head>
 <body>
     <?php mostraNavbar(); ?>
-    <h1>Lista giochi disponibili</h1>
+    <h2>Lista giochi disponibili</h2>
     <?php
     // Collega al database
     $conn = new mysqli("localhost", "root", "root", "giochi");
@@ -152,7 +153,7 @@
     ?>
 
     <!-- Lista noleggiati -->
-    <h1>Lista giochi in prestito</h1>
+    <h2>Lista giochi in prestito</h2>
     <?php
         // Collega al database
         $conn = new mysqli("localhost", "root", "root", "giochi");

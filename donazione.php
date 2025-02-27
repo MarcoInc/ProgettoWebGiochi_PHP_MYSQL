@@ -17,8 +17,10 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<title>Dona 5€</title>
+    <meta charset="UTF-8">
+    <title>Dona 5€</title>
+    <link rel="stylesheet" href="/css/style.css"></head>
+
 </head>
     <body>
         <?php

@@ -21,6 +21,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="/css/style.css"></head>
 </head>
 <body>
     <?php   

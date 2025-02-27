@@ -1,6 +1,8 @@
 <?php
 //creo una funzione che richiameremo ad inizio di ogni pagina
 function mostraNavbar() {
+    echo "<h1>Dungeon & Games</h1>";
+
     //controlla se in _SESSION è definito 'username'
     if (isset($_SESSION['username'])) {
         echo "Benvenuto ".$_SESSION["username"]."! - Livello:".$_SESSION["level"]; //messaggio di benvenuto che mostra l'username

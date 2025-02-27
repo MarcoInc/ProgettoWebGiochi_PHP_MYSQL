@@ -67,7 +67,7 @@
         return "Utente ".$row['username']." non è più un CURATORE";
         exit; // Assicurati di terminare l'esecuzione dello script dopo il reindirizzamento
     }
-   function eliminaUtente($id_utente) {
+    function eliminaUtente($id_utente) {
     //Importo le costanti per usare le credenziali per il db
         require_once 'config/db.php';
         //Collegamento al DB
@@ -132,6 +132,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista utenti</title>
+    <link rel="stylesheet" href="/css/style.css"></head>
 </head>
 <body>
     <?php   
@@ -139,7 +140,7 @@
         mostraNavbar();
     ?>
 
-    <h1>Stato utenti</h1>
+    <h2>Stato utenti</h2>
     <?php
         //Collegamento al DB
         //Uso le costanti usati nel file in config/db.php

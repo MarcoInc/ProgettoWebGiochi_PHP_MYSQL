@@ -13,11 +13,12 @@
     <title>HOME PAGE</title>
     <link rel="stylesheet" href="/css/style.css"></head>
 <body>    
-    <h2 class="titolo">Homepage di Dungeon & Games</h2>
     <?php   
         //Richiama la la navbar in precedenza importata
         mostraNavbar();
     ?> 
+    <h2 class="titolo">Homepage di Dungeon & Games</h2>
+
     <?php
         //Collegamento al DB
         //Uso le costanti usati nel file in config/db.php

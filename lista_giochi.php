@@ -12,6 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista giochi</title>
+    <link rel="stylesheet" href="/css/style.css"></head>
 </head>
 <body>
     <?php   
@@ -19,7 +20,7 @@
         mostraNavbar();
     ?>
 
-    <h1>Lista giochi</h1>
+    <h2>Lista giochi</h2>
     <?php
         //Collegamento al DB
         //Uso le costanti usati nel file in config/db.php

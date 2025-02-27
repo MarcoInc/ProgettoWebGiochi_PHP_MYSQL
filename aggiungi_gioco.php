@@ -16,8 +16,10 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<title>Aggiungi gioco</title>
+    <meta charset="UTF-8">
+    <title>Aggiungi gioco</title>
+    <link rel="stylesheet" href="/css/style.css"></head>
+
 </head>
     <body>
         <?php
