@@ -13,7 +13,7 @@ CREATE TABLE utenti (
     password VARCHAR(100) NOT NULL,
     isCuratore BOOLEAN DEFAULT FALSE,
     isAdmin BOOLEAN DEFAULT FALSE,
-    livello INT DEFAULT 1
+    level INT DEFAULT 1
 );
 
 CREATE TABLE giochi (
