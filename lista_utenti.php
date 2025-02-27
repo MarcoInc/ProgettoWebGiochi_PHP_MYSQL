@@ -45,6 +45,7 @@
                 u.id AS id,
                 u.username AS username,
                 u.isCuratore AS isCuratore,
+                u.level AS level,
                 COALESCE(a.stato, '') AS stato,
                 MAX(COALESCE(a.data_fine_abbonamento, '')) OVER (PARTITION BY u.id) AS data_fine_abbonamento
             FROM utenti u
@@ -57,12 +58,12 @@
 
         if ($result->num_rows > 0) {
             // Stampa dati di ogni riga
-            echo "<table border='1'><tr><th>ID</th><th>Username</th><th>Curatore</th>
+            echo "<table border='1'><tr><th>ID</th><th>Username</th><th>Livello</th><th>Curatore</th>
                 <th>Stato abbonamento</th><th>Scadenza abbonamento</th></tr>";
             while($row = $result->fetch_assoc()) {
                 $tmp=$row["isCuratore"] ? "X" : " ";
-                echo "<tr><td>" . $row["id"]. "</td><td>" . $row["username"]."</td><td>" .$tmp."</td>
-                <td>".$row["stato"]."</td><td>".$row["data_fine_abbonamento"]."</td></tr>";
+                echo "<tr><td>" . $row["id"]. "</td><td>" . $row["username"]."</td><td>" . $row["level"]."</td>
+                <td>" .$tmp."</td><td>".$row["stato"]."</td><td>".$row["data_fine_abbonamento"]."</td></tr>";
             }
             echo "</table>";
         }

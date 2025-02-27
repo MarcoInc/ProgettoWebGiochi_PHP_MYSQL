@@ -3,7 +3,7 @@
 function mostraNavbar() {
     //controlla se in _SESSION è definito 'username'
     if (isset($_SESSION['username'])) {
-        echo "Benvenuto ".$_SESSION["username"]."!"; //messaggio di benvenuto che mostra l'username
+        echo "Benvenuto ".$_SESSION["username"]."! - Livello:".$_SESSION["level"]; //messaggio di benvenuto che mostra l'username
         //verifica se in _SESSION è definito 'isCuratore' -> se si è Curatore
         if($_SESSION['isAdmin'])
         echo ' (ADMIN)'; //Mostra ADMIN dopo il messaggio di benvenuto
