@@ -71,10 +71,6 @@
                 $_SESSION['id_utente']=$row['id'];
                 $_SESSION['isCuratore']=(bool)$row['isCuratore'];
                 $_SESSION['isAdmin']=(bool)$row['isAdmin'];
-                $_SESSION['level']=$row['level'];
-                $_SESSION['donazione']=false;
-
-
 
                 //ti riporta nalla homepage che sta in /
                 header('Location: /');

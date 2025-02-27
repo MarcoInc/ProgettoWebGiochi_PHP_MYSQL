@@ -11,8 +11,7 @@
     //importo il file navbar.php e tutte le sue funzioni e contenuto
     require_once 'templates/navbar.php';
     //Importo le costanti per usare le credenziali per il db
-    require_once 'config/db.php';
-
+    require_once 'config/db.php'
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -81,18 +80,13 @@
                                             VALUES ('$id_utente', '$data','$data_scadenza','Regolare')";
                         if ($conn->query($sql_abbonamento) === TRUE) {
                             echo "Gioco donato!";
-                            $_SESSION['donazione']=true;
                             echo "Adesso sei un UTENTE DONATORE. Data di scadenza del tuo abbonamento aggiornata: " . $data_scadenza;
-                            require_once 'level_up.php';
-                            header('Location: level_up.php');
-                            $_SESSION['donazione']=false;
                         }
                     }
                 }
             }
             // Chiudi connessione
             $conn->close();
-            exit;
         ?>
     </body>
 </html>
