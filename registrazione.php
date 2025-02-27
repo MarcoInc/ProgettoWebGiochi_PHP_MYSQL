@@ -54,7 +54,7 @@
                 $username = $_POST['username'];
                 $password = $_POST['password'];
 
-                $hash = hash('sha256', $password);
+                $hash = hash('sha256', data: $password);
 
 
                 // Controlla se username esiste
