@@ -181,11 +181,11 @@
                 
                 while($row = $result->fetch_assoc()) {
                     //pulsante che toglie il curatore
-                    $pulsanteCuratore = '<form method="post">
+                    $pulsanteCuratore = '<form class="promuoviUtente"  method="post">
                                             <input type="hidden" name="id_utente" value="' . $row["id"] . '">
                                             <input type="submit" name="curatoreFALSE" value="Togli CURATORE">
                                         </form>';
-                    $pulsanteEliminaUtente = '<form method="post">
+                    $pulsanteEliminaUtente = '<form class="eliminaUtente" emethod="post">
                     <input type="hidden" name="id_utente" value="' . $row["id"] . '">
                     <input type="submit" name="eliminaUtente" value="Elimina utente">
                     </form>';
@@ -220,11 +220,11 @@
                 
                 while($row = $result->fetch_assoc()) {
                     //pulsante che rende curatore
-                    $pulsanteCuratore = '<form method="post">
+                    $pulsanteCuratore = '<form class="promuoviUtente" method="post">
                                             <input type="hidden" name="id_utente" value="' . $row["id"] . '">
                                             <input type="submit" name="curatoreTRUE" value="Promuovi a CURATORE">
                                         </form>';
-                    $pulsanteEliminaUtente = '<form method="post">
+                    $pulsanteEliminaUtente = '<form class="eliminaUtente" method="post">
                     <input type="hidden" name="id_utente" value="' . $row["id"] . '">
                     <input type="submit" name="eliminaUtente" value="Elimina utente">
                     </form>';

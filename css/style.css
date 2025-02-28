@@ -1,7 +1,124 @@
-h1{
-    color: red;
+/* Stile generale */
+
+body {
+    font-family:sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+    margin: 0;
+    padding: 0;
 }
 
-h2{
-    color:blue;
+/* Header */
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+/* Contenitore principale */
+body {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #C7DBE6;
+    border-radius: 8px;
+}
+
+/* Tabelle */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+/* selettore multiplo */
+table, th, td {
+    border: 1px solid #1F2C2D;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #1F2C2D;
+    color: white;
+}
+
+/* Pulsanti */
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Form */
+input[type=text], input[type=password], input[type=email], input[type=date], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 100%;
+    background-color: #BFB1C1;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #BAB8C4;
+}
+.prestito>input {
+    background-color: #BFB1C1;
+}
+.prestito>input:hover  {
+    background-color: #BAB8C4;
+}
+
+.eliminaUtente>input {
+    background-color: #B88B97;
+}
+.eliminaUtente>input:hover  {
+    background-color: #B0656D;
+}
+
+.promuoviUtente>input {
+    background-color: #94A590;
+}
+.promuoviUtente>input:hover  {
+    background-color: #68985E;
+}
+/* Footer */
+footer {
+    background-color: #f1f1f1;
+    padding: 10px;
+    text-align: center;
+    color: #777;
+    border-top: 1px solid #ddd;
 }

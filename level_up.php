@@ -10,7 +10,7 @@
         //esce dalla pagina di logout
         exit;
     }else
-        levelUp($_SESSION['id_utente']);    
+        levelUp(id_utente: $_SESSION['id_utente']);    
     header(header: 'Location: /');
     exit;
 ?>

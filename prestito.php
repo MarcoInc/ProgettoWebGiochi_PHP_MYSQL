@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
     //Inizia la sessione -> crea o richiama l'array chiave valore _SESSION[....]
     session_start();
@@ -173,7 +172,7 @@
             if ($result->num_rows > 0) {
                 echo "<table border='1'><tr><th>Nome</th><th>Data prestito</th><th>Data scadenza prestito</th><th>Azione</th></tr>";
                 while($row = $result->fetch_assoc()) {
-                    $pulsanteRestituisci = '<form method="post">
+                    $pulsanteRestituisci = '<form class="prestito" method="post">
                                     <input type="hidden" name="id_gioco" value="' . $row["id_gioco"] . '">
                                     <input type="hidden" name="id_utente" value="' . $_SESSION["id_utente"] . '">
                                     <input type="submit" name="ritorna" value="Ritorna gioco">
