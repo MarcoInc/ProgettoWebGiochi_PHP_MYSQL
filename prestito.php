@@ -130,7 +130,14 @@
         <h2>Lista giochi disponibili</h2>
         <?php
         // Collega al database
-        $conn = new mysqli("localhost", "root", "root", "giochi");
+        $servername = DB_HOST;
+        $username = DB_USER;
+        $password = DB_PASSWORD;
+        $dbname = DB_NAME;
+        $messaggio = "";
+
+        // Crea connessione
+        $conn = new mysqli($servername, $username, $password, $dbname);
         $sql = "SELECT id, nome_gioco, isPrestato FROM giochi WHERE isPrestato=0";
         $result = $conn->query($sql);
 
