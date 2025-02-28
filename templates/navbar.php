@@ -18,6 +18,8 @@ function mostraNavbar() {
     ?>
     
     <div>
+        <div id="navbar" >
+
         <a href="/">Homepage</a>
         <a href="/lista_giochi.php">Lista giochi</a>
         <?php
@@ -40,8 +42,10 @@ function mostraNavbar() {
                 <a href="/donazione.php">Donaci 5€</a>
                 <a href="/logout.php">Logout</a>
                 ';
-        }
-        ?>
+            }
+            ?>
+        </div>
+
     </div>
     <?php
 }

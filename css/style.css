@@ -68,6 +68,9 @@ button {
 button:hover {
     background-color: #45a049;
 }
+div>#navbar>a{
+    padding: 5px;
+}
 
 /* Form */
 input[type=text], input[type=password], input[type=email], input[type=date], select {
