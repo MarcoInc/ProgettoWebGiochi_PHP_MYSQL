@@ -1,10 +1,10 @@
 Progetto fullstack su un sito web che implementa delle funzioni base CRUD di un sito web con le seguenti caratteristiche
 <ul>
-  <el>Registrazione utente</el>
-  <el>Login</el>
-  <el>Funzioni ADMIN</el>
-  <el>Aggiunta e rimozioni articoli</el>
-  <el>Registrazione utente</el>
+  <li>Registrazione utente</li>
+  <li>Login</li>
+  <li>Funzioni ADMIN</li>
+  <li>Aggiunta e rimozioni articoli</li>
+  liel>Registrazione utente</li>
 </ul>
 
 
