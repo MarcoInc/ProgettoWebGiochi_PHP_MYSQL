@@ -4,7 +4,7 @@ Progetto fullstack su un sito web che implementa delle funzioni base CRUD di un 
   <li>Login</li>
   <li>Funzioni ADMIN</li>
   <li>Aggiunta e rimozioni articoli</li>
-  liel>Registrazione utente</li>
+  <li>Registrazione utente</li>
 </ul>
 
 
